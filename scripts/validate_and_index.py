@@ -19,10 +19,14 @@ INDEX_PATH = REPO_ROOT / "index.json"
 
 REPO_SLUG = "fscorrupt/posterizarr-community"
 REPO_BRANCH = "main"
+BLUEPRINTS_RELEASE_TAG = "gallery-blueprints"
+OVERLAYS_RELEASE_TAG = "gallery-dynamic-overlays"
+MAX_RELEASE_ASSETS = 1000
 
 AUTHOR_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,48}$")
 SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9-]{1,60}$")
 TAG_RE = re.compile(r"^[a-z0-9][a-z0-9-]{0,29}$")
+SAFE_RELEASE_SEGMENT_RE = re.compile(r"[^a-z0-9._-]+")
 
 PREVIEW_EXTS = {".png", ".jpg", ".jpeg", ".webp"}
 MAX_PREVIEW_BYTES = 2 * 1024 * 1024
@@ -348,6 +352,18 @@ def validate_meta(entry_dir: Path, rel_path: str, errors: list[str], default_aut
     return normalized
 
 
+def build_release_asset_name(kind: str, entry_id: str, suffix: str) -> str:
+    """Build a deterministic, collision-free, GitHub-Release-safe asset filename."""
+    ext = suffix.lower()
+    if ext not in {".json", ".zip"}:
+        raise ValueError(f"Unsupported release asset suffix '{suffix}' for {kind}:{entry_id}")
+    raw_slug = entry_id.replace("/", "--").lower()
+    slug = SAFE_RELEASE_SEGMENT_RE.sub("-", raw_slug)
+    slug = re.sub(r"\.{2,}", ".", slug).strip(".-_")[:80] or "entry"
+    digest8 = hashlib.sha256(f"{kind}:{entry_id}".encode("utf-8")).hexdigest()[:8]
+    return f"{slug}-{digest8}{ext}"
+
+
 def validate_blueprint_entry(entry_id: str, rel_path: str, entry_dir: Path, errors: list[str], default_author: str | None = None) -> dict | None:
     meta = validate_meta(entry_dir, rel_path, errors, default_author=default_author)
     bp_path = find_blueprint_file(entry_dir, rel_path, errors)
@@ -517,6 +533,8 @@ def validate_blueprint_entry(entry_id: str, rel_path: str, entry_dir: Path, erro
         "asset_count": len(bundled_assets),
         "file_size_bytes": len(raw_bytes),
         "sha256": hashlib.sha256(raw_bytes).hexdigest(),
+        "release_tag": BLUEPRINTS_RELEASE_TAG,
+        "release_asset": build_release_asset_name("blueprint", entry_id, bp_path.suffix),
     }
     if is_zip:
         result["assets"] = sorted(bundled_assets)
@@ -658,6 +676,8 @@ def validate_overlay_entry(entry_id: str, rel_path: str, entry_dir: Path, errors
         "asset_count": sum(PurePosixPath(name).suffix.lower() in BUNDLE_ASSET_EXTS for name in files),
         "bundle_size_bytes": len(raw_bytes),
         "bundle_sha256": hashlib.sha256(raw_bytes).hexdigest(),
+        "release_tag": OVERLAYS_RELEASE_TAG,
+        "release_asset": build_release_asset_name("dynamic-overlay", entry_id, zip_path.suffix),
     }
 
 
@@ -703,6 +723,27 @@ def build_index() -> tuple[dict, list[str]]:
     errors: list[str] = []
     blueprints = collect_entries(BLUEPRINTS_DIR, validate_blueprint_entry, errors)
     dynamic_overlays = collect_entries(OVERLAYS_DIR, validate_overlay_entry, errors)
+
+    for category_label, items in (("blueprints", blueprints), ("dynamic_overlays", dynamic_overlays)):
+        if len(items) > MAX_RELEASE_ASSETS:
+            errors.append(
+                f"{category_label}: {len(items)} entries exceeds the {MAX_RELEASE_ASSETS}-asset limit per GitHub Release."
+            )
+
+    seen_assets: dict[tuple[str, str], str] = {}
+    for item in (*blueprints, *dynamic_overlays):
+        r_tag = item.get("release_tag")
+        r_asset = item.get("release_asset")
+        if isinstance(r_tag, str) and isinstance(r_asset, str):
+            key = (r_tag, r_asset.casefold())
+            prev_id = seen_assets.get(key)
+            if prev_id is not None:
+                errors.append(
+                    f"{item.get('path')}: release asset name '{r_asset}' collides with '{prev_id}' in '{r_tag}'."
+                )
+            else:
+                seen_assets[key] = str(item.get("id"))
+
     index = {
         "schema_version": 1,
         "repo": REPO_SLUG,

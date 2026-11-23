@@ -7,6 +7,8 @@ on:
       - "blueprints/**"
       - "dynamic-overlays/**"
       - "scripts/validate_and_index.py"
+      - "scripts/sync_releases_and_stats.py"
+  workflow_dispatch: {}
 
 permissions:
   contents: write
@@ -37,3 +39,56 @@ jobs:
           git add index.json
           git commit -m "chore: rebuild community index.json [skip ci]"
           git push
+
+  sync-releases:
+    needs: build-index
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: community-gallery-stats
+      cancel-in-progress: false
+    steps:
+      - name: Checkout main repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Checkout or initialize stats branch worktree
+        run: |
+          if git ls-remote --exit-code --heads origin stats >/dev/null 2>&1; then
+            git fetch --depth=1 origin stats
+            git worktree add -B stats ../_stats_branch FETCH_HEAD
+          else
+            git worktree add --detach ../_stats_branch HEAD
+            git -C ../_stats_branch checkout --orphan stats
+            git -C ../_stats_branch rm -rf . >/dev/null 2>&1 || true
+          fi
+
+      - name: Sync GitHub Release assets and stats.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/sync_releases_and_stats.py \
+            --repo "${{ github.repository }}" \
+            --index index.json \
+            --stats-file ../_stats_branch/stats.json \
+            --sync-assets \
+            --update-stats
+
+      - name: Commit and push stats.json if changed
+        run: |
+          if [ -z "$(git -C ../_stats_branch status --porcelain -- stats.json)" ]; then
+            echo "stats.json is already up to date."
+            exit 0
+          fi
+          git -C ../_stats_branch config user.name "github-actions[bot]"
+          git -C ../_stats_branch config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C ../_stats_branch add stats.json
+          git -C ../_stats_branch commit -m "chore: sync community gallery stats [skip ci]"
+          git -C ../_stats_branch push -u origin stats
