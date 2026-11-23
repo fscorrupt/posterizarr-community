@@ -77,6 +77,40 @@
         "backgroundoverlay-innerglow.png",
         "overlay-innerglow.png"
       ]
+    },
+    {
+      "id": "Kytte77",
+      "kind": "blueprint",
+      "name": "Kytte77 Adaption of olli991/Kometa-overlay",
+      "description": "Original overlay work by olli991/Kometa-overlay, based on jmxd's presets. Adapted for these examples.",
+      "author": "Kytte77",
+      "author_url": "https://github.com/Kytte77",
+      "source_url": null,
+      "tags": [],
+      "min_posterizarr_version": "4.0.0",
+      "notes": null,
+      "path": "blueprints/Kytte77",
+      "file": "blueprints/Kytte77/custom_blueprint.zip",
+      "previews": [
+        "blueprints/Kytte77/preview-episode.jpg",
+        "blueprints/Kytte77/preview-movie.jpg",
+        "blueprints/Kytte77/preview-season.jpg",
+        "blueprints/Kytte77/preview-series.jpg"
+      ],
+      "sections_count": 9,
+      "settings_count": 137,
+      "uses_logo": false,
+      "uses_borders": true,
+      "uses_text": true,
+      "is_bundle": true,
+      "asset_count": 3,
+      "file_size_bytes": 70225,
+      "sha256": "aa19f3c648e7c8f1558d89a619b3b020b2d239da4d15f30c6111001cadb6c104",
+      "assets": [
+        "Colus-Regular.ttf",
+        "backgroundoverlay-innerglow.png",
+        "overlay-innerglow.png"
+      ]
     }
   ],
   "dynamic_overlays": [
@@ -259,6 +293,69 @@
       "asset_count": 2,
       "bundle_size_bytes": 146115,
       "bundle_sha256": "6582140fed393506c308f204cc44e4eab8feb9b90b2812b7238b352f49d953c0"
+    },
+    {
+      "id": "Kytte77",
+      "kind": "dynamic-overlay",
+      "name": "Kytte77 Adaption of olli991/Kometa-overlay",
+      "description": "Original overlay work by olli991/Kometa-overlay, based on jmxd's presets. Adapted for these examples.",
+      "author": "Kytte77",
+      "author_url": "https://github.com/Kytte77",
+      "source_url": null,
+      "tags": [],
+      "min_posterizarr_version": "4.0.0",
+      "notes": null,
+      "path": "dynamic-overlays/Kytte77",
+      "file": "dynamic-overlays/Kytte77/posterizarr-overlays.zip",
+      "previews": [
+        "dynamic-overlays/Kytte77/preview-episode.jpg",
+        "dynamic-overlays/Kytte77/preview-movie.jpg",
+        "dynamic-overlays/Kytte77/preview-season.jpg",
+        "dynamic-overlays/Kytte77/preview-series.jpg"
+      ],
+      "libraries": [
+        {
+          "name": "Anime Shows",
+          "media_type": "mixed",
+          "rule_count": 0,
+          "animetafill": false,
+          "season_ratings": false
+        },
+        {
+          "name": "Filme",
+          "media_type": "movie",
+          "rule_count": 2,
+          "animetafill": false,
+          "season_ratings": false
+        },
+        {
+          "name": "Serien",
+          "media_type": "show",
+          "rule_count": 5,
+          "animetafill": false,
+          "season_ratings": false
+        }
+      ],
+      "library_types": [
+        "mixed",
+        "movie",
+        "show"
+      ],
+      "features": {
+        "animetafill": false,
+        "imdb_dataset": false,
+        "rating_sources": [
+          "imdb",
+          "tmdb",
+          "tomatoes",
+          "tomatoesaudience"
+        ],
+        "official_dependency_count": 3
+      },
+      "file_count": 178,
+      "asset_count": 174,
+      "bundle_size_bytes": 2016379,
+      "bundle_sha256": "7215a7abf92586f21aff71f054eaa1f2fe3e1054fa95056f3a9117f30f537242"
     }
   ]
 }
