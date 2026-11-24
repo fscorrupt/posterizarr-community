@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-24T03:25:51Z",
+  "updated_at": "2026-11-24T12:24:43Z",
   "blueprints": {
-    "corecompl3x": 1,
+    "corecompl3x": 3,
     "fscorrupt": 1,
     "Kytte77": 1
   },
   "dynamic_overlays": {
-    "corecompl3x": 1,
+    "corecompl3x": 2,
     "fscorrupt": 1,
     "Kytte77": 1
   },
@@ -18,7 +18,7 @@
         "asset_name": "corecompl3x-d430a822.zip",
         "sha256": "f9d62d4d5825c422f290938c16d79ec28dcfef284e82f207ee0bdf24267fde06",
         "baseline": 0,
-        "last_release_count": 1
+        "last_release_count": 3
       },
       "fscorrupt": {
         "asset_id": 783782344,
@@ -41,7 +41,7 @@
         "asset_name": "corecompl3x-c4043e26.zip",
         "sha256": "a0f421590f70081c247e4aa46b4cea5e4ab7c1f83b84e73e300913ed166da6d3",
         "baseline": 0,
-        "last_release_count": 1
+        "last_release_count": 2
       },
       "fscorrupt": {
         "asset_id": 783782529,
