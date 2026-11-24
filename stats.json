@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-24T12:24:43Z",
+  "updated_at": "2026-11-24T23:57:36Z",
   "blueprints": {
-    "corecompl3x": 3,
-    "fscorrupt": 1,
+    "corecompl3x": 4,
+    "fscorrupt": 6,
     "Kytte77": 1
   },
   "dynamic_overlays": {
     "corecompl3x": 2,
-    "fscorrupt": 1,
-    "Kytte77": 1
+    "fscorrupt": 3,
+    "Kytte77": 3
   },
   "_tracking": {
     "blueprints": {
@@ -18,14 +18,14 @@
         "asset_name": "corecompl3x-d430a822.zip",
         "sha256": "f9d62d4d5825c422f290938c16d79ec28dcfef284e82f207ee0bdf24267fde06",
         "baseline": 0,
-        "last_release_count": 3
+        "last_release_count": 4
       },
       "fscorrupt": {
         "asset_id": 783782344,
         "asset_name": "fscorrupt-a14e54d2.zip",
         "sha256": "8363bf51864f89f586878bcb4c1b6780f4328a1848c30f31972e3255ba3532d9",
         "baseline": 0,
-        "last_release_count": 1
+        "last_release_count": 6
       },
       "Kytte77": {
         "asset_id": 783782381,
@@ -48,14 +48,14 @@
         "asset_name": "fscorrupt-8ba5e9ca.zip",
         "sha256": "6582140fed393506c308f204cc44e4eab8feb9b90b2812b7238b352f49d953c0",
         "baseline": 0,
-        "last_release_count": 1
+        "last_release_count": 3
       },
       "Kytte77": {
         "asset_id": 783782585,
         "asset_name": "kytte77-875bd1ee.zip",
         "sha256": "7215a7abf92586f21aff71f054eaa1f2fe3e1054fa95056f3a9117f30f537242",
         "baseline": 0,
-        "last_release_count": 1
+        "last_release_count": 3
       }
     }
   }
