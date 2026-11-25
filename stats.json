@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-25T13:06:23Z",
+  "updated_at": "2026-11-25T23:41:31Z",
   "blueprints": {
     "corecompl3x": 4,
     "fscorrupt": 6,
@@ -8,8 +8,8 @@
   },
   "dynamic_overlays": {
     "corecompl3x": 3,
-    "fscorrupt": 3,
-    "Kytte77": 5
+    "fscorrupt": 6,
+    "Kytte77": 9
   },
   "_tracking": {
     "blueprints": {
@@ -48,14 +48,14 @@
         "asset_name": "fscorrupt-8ba5e9ca.zip",
         "sha256": "6582140fed393506c308f204cc44e4eab8feb9b90b2812b7238b352f49d953c0",
         "baseline": 0,
-        "last_release_count": 3
+        "last_release_count": 6
       },
       "Kytte77": {
         "asset_id": 783782585,
         "asset_name": "kytte77-875bd1ee.zip",
         "sha256": "7215a7abf92586f21aff71f054eaa1f2fe3e1054fa95056f3a9117f30f537242",
         "baseline": 0,
-        "last_release_count": 5
+        "last_release_count": 9
       }
     }
   }
