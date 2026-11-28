@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-27T12:38:33Z",
+  "updated_at": "2026-11-28T11:56:14Z",
   "blueprints": {
     "corecompl3x": 4,
-    "fscorrupt": 9,
+    "fscorrupt": 10,
     "Kytte77": 2
   },
   "dynamic_overlays": {
@@ -25,7 +25,7 @@
         "asset_name": "fscorrupt-a14e54d2.zip",
         "sha256": "8363bf51864f89f586878bcb4c1b6780f4328a1848c30f31972e3255ba3532d9",
         "baseline": 0,
-        "last_release_count": 9
+        "last_release_count": 10
       },
       "Kytte77": {
         "asset_id": 783782381,
